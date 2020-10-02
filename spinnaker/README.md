@@ -98,6 +98,9 @@ After then you will see so many resources like EKS, S3, IAM, RDS, and others on 
 
 ### Validate Installation
 aws eks --region us-east-1 update-kubeconfig --name <EKS-CLUSTER-NAME i.e. example-dev-module-test-drlg>
+  
 kubectl get pods --all-namespaces
+
 kubectl -n spinnaker port-forward svc/spin-deck 9000:9000
+
 Navigate to http://localhost:9000/ in your browser
