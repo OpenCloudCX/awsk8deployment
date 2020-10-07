@@ -17,10 +17,10 @@ provider "aws" {
   version             = ">= 3.0"
 }
 
-# spinnaker
-module "spinnaker" {
-  source  = "Young-ook/spinnaker/aws"
-  version = "~> 2.0"
+
+module "opencloudcx" {
+  source  = "OpenCloudCX/opencloudcx/aws"
+  version = "~> 0.1.0"
 
   name               = "example"
   stack              = "dev"
@@ -51,11 +51,11 @@ module "spinnaker" {
 
 # spinnaker managed role
 module "spinnaker-managed-role" {
-  source  = "Young-ook/spinnaker/aws//modules/spinnaker-managed-aws"
-  version = "~> 2.0"
+  source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
+  version = "~> 0.1.0"
 
   providers        = { aws = aws.prod }
   name             = "example"
   stack            = "dev"
-  trusted_role_arn = [module.spinnaker.role_arn]
+  trusted_role_arn = [module.opencloudcx.role_arn]
 }
