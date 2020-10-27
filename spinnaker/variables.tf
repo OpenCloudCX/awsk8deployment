@@ -67,6 +67,12 @@ variable "helm_repo" {
   default     = "https://kubernetes-charts.storage.googleapis.com"
 }
 
+variable "helm_repo_opencloudcx" {
+  description = "A repositiry url of helm chart to deploy a opencloudcx"
+  type        = string
+  default     = "https://opencloudcx.github.io/grafana-helm/opencloudcx-0.0.1.tgz"
+}
+
 variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
   type        = number

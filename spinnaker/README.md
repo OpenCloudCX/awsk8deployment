@@ -38,7 +38,7 @@ module "opencloudcx" {
   azs                = ["us-east-1a", "us-east-1b", "us-east-1c"]
   cidr               = "10.0.0.0/16"
   dns_zone           = "your.private"
-  kubernetes_version = "1.16"
+  kubernetes_version = "1.17"
   kubernetes_node_groups = {
     default = {
       instance_type = "m5.large"
@@ -87,5 +87,6 @@ aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME i.e. examp
 kubectl get pods --all-namespaces
 
 kubectl -n spinnaker port-forward svc/spin-deck 9000:9000
+kubectl -n default port-forward svc/jenkins 8000:8000
 
 Navigate to http://localhost:9000/ in your browser

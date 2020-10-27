@@ -30,7 +30,7 @@ module "opencloudcx" {
   azs                = ["us-east-1a", "us-east-1b", "us-east-1c"]
   cidr               = "10.0.0.0/16"
   dns_zone           = "your.private"
-  kubernetes_version = "1.16"
+  kubernetes_version = "1.17"
   kubernetes_node_groups = {
     default = {
       instance_type = "m5.large"
