@@ -86,7 +86,10 @@ aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME i.e. examp
   
 kubectl get pods --all-namespaces
 
-kubectl -n spinnaker port-forward svc/spin-deck 9000:9000
-kubectl -n default port-forward svc/jenkins 8000:8000
+- kubectl -n spinnaker port-forward svc/spin-deck 9000:9000
+- kubectl -n opencloudcx port-forward svc/jenkins 8000:8000
+- kubectl -n opencloudcx port-forward svc/grafana 3000:3000
+- kubectl -n opencloudcx port-forward svc/prometheus 9090:9090
+- kubectl -n opencloudcx port-forward svc/sonarqube 9001:9001
 
 Navigate to http://localhost:9000/ in your browser
