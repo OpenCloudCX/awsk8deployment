@@ -82,14 +82,42 @@ terraform apply -var-file=default.tfvars
 After then you will see so many resources like EKS, S3, IAM, RDS, and others on AWS. 
 
 ### Validate Installation
-aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME i.e. example-dev-module-test-drlg"
+aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME i.e. example-dev-module-test-lrlf"
   
 kubectl get pods --all-namespaces
 
 - kubectl -n spinnaker port-forward svc/spin-deck 9000:9000 &
-- kubectl -n opencloudcx port-forward svc/jenkins 8000:8000 &
 - kubectl -n opencloudcx port-forward svc/grafana 3000:3000 &
 - kubectl -n opencloudcx port-forward svc/prometheus 9090:9090 &
-- kubectl -n opencloudcx port-forward svc/sonarqube 9001:9001 &
 
-Navigate to http://localhost:9000/ in your browser
+- Navigate to http://localhost:9000/ in your browser to access Spinnakers
+
+
+### Jenkins 
+* http://100.25.48.203/
+* admin/rebellis
+
+### Sonarqube
+* http://3.82.232.178/
+* admin/rebelliss
+
+### Portainer
+* kubectl get svc --all-namespaces
+* You should see a line like this:
+* portainer     portainer                     LoadBalancer   172.20.49.121    ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com   9000:31776/TCP,8000:32602/TCP   13d
+
+* Point your browser to i.e. http://ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com:9000 and setup the admin user/password. Keep it simple in line with Jenkins or Sonarqube.
+
+
+### Configure Spinnaker for Jenkins: https://spinnaker.io/setup/ci/jenkins/
+* Get to the command line for the Spinnaker Halyard container (Use kubectl or Portainer via web browser)
+##### Run the following commands:
+* hal config ci jenkins enable
+* echo TOKEN | hal config ci jenkins master add jenkins --address http://100.25.48.203/ --username admin --password
+* hal deploy apply
+
+### Enable Spinnaker Prometheus Integration
+* https://spinnaker.io/setup/monitoring/prometheus/
+
+### Canary
+* https://spinnaker.io/setup/canary/
