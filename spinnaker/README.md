@@ -94,6 +94,7 @@ kubectl get pods --all-namespaces
 
 ### When you want to delete
 rm -rf .terraform*
+
 rm -rf tfstate files inside your terraform execution dir 
 
 ### Jenkins 
