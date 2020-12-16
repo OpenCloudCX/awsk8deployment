@@ -92,6 +92,9 @@ kubectl get pods --all-namespaces
 
 - Navigate to http://localhost:9000/ in your browser to access Spinnakers
 
+### When you want to delete
+rm -rf .terraform*
+rm -rf tfstate files inside your terraform execution dir 
 
 ### Jenkins 
 * http://100.25.48.203/
