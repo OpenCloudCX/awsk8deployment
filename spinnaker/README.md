@@ -9,7 +9,7 @@ This is the first step to create a spinnaker cluster. Just get terraform module 
 # Complete example
 
 terraform {
-  required_version = "~> 0.13.0"
+  required_version = "~> 0.14.2"
 }
 
 provider "aws" {
