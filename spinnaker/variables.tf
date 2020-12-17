@@ -64,7 +64,7 @@ variable "dns_zone" {
 variable "helm_repo" {
   description = "A repositiry url of helm chart to deploy a spinnaker"
   type        = string
-  default     = "https://kubernetes-charts.storage.googleapis.com"
+  default     = "https://helmcharts.opsmx.com/"
 }
 
 variable "helm_repo_opencloudcx" {
@@ -82,7 +82,7 @@ variable "helm_timeout" {
 variable "helm_chart_version" {
   description = "The version of helm chart to deploy spinnaker"
   type        = string
-  default     = "2.1.0-rc.1"
+  default     = "2.2.3"
 }
 
 variable "helm_chart_values_file" {

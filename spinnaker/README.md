@@ -99,7 +99,7 @@ kubectl get pods --all-namespaces
 
 ### Sonarqube
 * http://3.82.232.178/
-* admin/rebelliss
+* admin/rebellis
 
 ### Portainer
 * kubectl get svc --all-namespaces
