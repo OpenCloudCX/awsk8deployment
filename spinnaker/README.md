@@ -9,7 +9,7 @@ This is the first step to create a spinnaker cluster. Just get terraform module 
 # Complete example
 
 terraform {
-  required_version = "~> 0.13.0"
+  required_version = "~> 0.14.2"
 }
 
 provider "aws" {
@@ -92,6 +92,10 @@ kubectl get pods --all-namespaces
 
 - Navigate to http://localhost:9000/ in your browser to access Spinnakers
 
+### When you want to delete
+rm -rf .terraform*
+
+rm -rf tfstate files inside your terraform execution dir 
 
 ### Jenkins 
 * http://100.25.48.203/
