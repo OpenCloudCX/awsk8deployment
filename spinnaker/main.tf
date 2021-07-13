@@ -20,7 +20,7 @@ provider "aws" {
 
 module "opencloudcx" {
   source  = "OpenCloudCX/opencloudcx/aws"
-  version = ">= 0.3.3"
+  version = ">= 0.3.4"
 
   name               = "example"
   stack              = "dev"
@@ -52,7 +52,7 @@ module "opencloudcx" {
 # spinnaker managed role
 module "spinnaker-managed-role" {
   source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
-  version = "~> 0.3.3"
+  version = "~> 0.3.4"
 
   providers        = { aws = aws.prod }
   name             = "example"
