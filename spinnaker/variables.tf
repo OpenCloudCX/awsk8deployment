@@ -70,7 +70,7 @@ variable "helm_repo" {
 variable "helm_repo_opencloudcx" {
   description = "A repositiry url of helm chart to deploy a opencloudcx"
   type        = string
-  default     = "https://github.com/OpenCloudCX/grafana-helm"
+  default     = "https://github.com/OpenCloudCX/blob/master/grafana-helm"
 }
 
 variable "helm_timeout" {
