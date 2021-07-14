@@ -64,7 +64,7 @@ variable "dns_zone" {
 variable "helm_repo" {
   description = "A repositiry url of helm chart to deploy a spinnaker"
   type        = string
-  default     = "https://helmcharts.opsmx.com/"
+  default     = "https://opencloudcx.github.io/spinnaker-helm/"
 }
 
 variable "helm_repo_opencloudcx" {
