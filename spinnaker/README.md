@@ -89,7 +89,8 @@ Once Terraform instructions have been applied, the following message will be dis
 
 ### Validate Installation
 
-```aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME``` \\
+```aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME```
+
 ```kubectl get pods --all-namespaces```
 
 If an error of ```error: You must be logged in to the server (Unauthorized)``` is returned after the ```kubectl``` command, the following changes need to be made by the cluster owner.
