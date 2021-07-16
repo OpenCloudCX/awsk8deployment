@@ -99,8 +99,6 @@ If an error of ```error: You must be logged in to the server (Unauthorized)``` i
 
 This command will open the configuation file in your default editor of choice (e.g., nano, vi). Within the ```configfile``` map, addition of a ```mapusers``` node needs to be added with the ARN of the user requiring access. Ensure ```<account-number>``` is consistent and update ```<username>``` with the IAM username to be granted access.
 
-```configmap/aws-auth```
-
 ```
 apiVersion: v1
 data:
