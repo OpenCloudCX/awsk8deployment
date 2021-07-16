@@ -122,7 +122,7 @@ Once the editor is exited, the configuration file will be updated
 Port redirection is the preferred way to access the console resources of OpenCloudCX. (Use ```&``` at end of line in linux to run command in the background)
 
 ## Spinnaker
-```kubectl -n spinnaker port-forward svc/spin-deck 9000:9000```
+```kubectl -n spinnaker port-forward svc/spin-deck 9000:9000```<br />
 Navigate to http://localhost:9000/ in your browser to access Spinnaker
 
 ## Grafana
