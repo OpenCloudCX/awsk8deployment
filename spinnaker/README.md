@@ -67,9 +67,12 @@ module "spinnaker-managed-role" {
   stack            = "dev"
   trusted_role_arn = [module.opencloudcx.role_arn]
 }
-
 ```
-Run terraform:
+### Terraform
+
+Install Terraform
+
+Run Terraform:
 ```
 terraform init
 terraform apply
@@ -79,16 +82,58 @@ Also you can use the `-var-file` option for customized paramters when you run th
 terraform plan -var-file=default.tfvars
 terraform apply -var-file=default.tfvars
 ```
-After then you will see so many resources like EKS, S3, IAM, RDS, and others on AWS. 
+
+Once Terraform instructions have been applied, the following message will be displayed 
+
+<< INSERT MESSAGE HERE>>
 
 ### Validate Installation
-aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME i.e. example-dev-module-test-lrlf"
-  
-kubectl get pods --all-namespaces
 
-- kubectl -n spinnaker port-forward svc/spin-deck 9000:9000 &
-- kubectl -n opencloudcx port-forward svc/grafana 3000:3000 &
-- kubectl -n opencloudcx port-forward svc/prometheus 9090:9090 &
+```aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME```
+```kubectl get pods --all-namespaces```
+
+If an error of ```error: You must be logged in to the server (Unauthorized)``` is returned after the ```kubectl``` command, the following changes need to be made by the cluster owner.
+
+```kubectl edit -n kube-system configmap/aws-auth```
+
+This command will open the configuation file in your default editor of choice (e.g., nano, vi). Within the ```configfile``` map, addition of a ```mapusers``` node needs to be added with the ARN of the user requiring access. Ensire ```<account-number>``` is consistent and update ```<username>``` with the IAM username to be granted access.
+
+```configmap/aws-auth```
+
+```
+apiVersion: v1
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::<account-number>:role/example-dev-module-test-asdf-eks
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+  mapUsers: |
+    - userarn: arn:aws:iam::<account-number>:user/<username>
+      username: <username>
+      groups:
+        - system:masters
+```
+
+Once the editor is exited, the configuration file will be updated
+
+### Port Redirection
+
+Port redirection is the preferred way to access the console resources of OpenCloudCX. (Use ```&``` at end of line in linux to run command in the background)
+
+## Spinnaker
+```kubectl -n spinnaker port-forward svc/spin-deck 9000:9000```
+
+## Grafana
+```kubectl -n opencloudcx port-forward svc/grafana 3000:3000```
+
+## Prometheus
+```kubectl -n opencloudcx port-forward svc/prometheus 9090:9090```
+
+- 
+- 
+- 
 
 - Navigate to http://localhost:9000/ in your browser to access Spinnakers
 
