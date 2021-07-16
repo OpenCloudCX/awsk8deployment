@@ -121,16 +121,16 @@ Once the editor is exited, the configuration file will be updated
 
 Port redirection is the preferred way to access the console resources of OpenCloudCX. (Use ```&``` at end of line in linux to run command in the background)
 
-## Spinnaker
+#### Spinnaker
 ```kubectl -n spinnaker port-forward svc/spin-deck 9000:9000```<br />
 Navigate to http://localhost:9000/ in your browser to access Spinnaker
 
-## Grafana
-```kubectl -n opencloudcx port-forward svc/grafana 3000:3000```
+#### Grafana
+```kubectl -n opencloudcx port-forward svc/grafana 3000:3000```<br />
 Navigate to http://localhost:3000/ in your browser to access Grafana
 
-## Prometheus
-```kubectl -n opencloudcx port-forward svc/prometheus 9090:9090```
+#### Prometheus
+```kubectl -n opencloudcx port-forward svc/prometheus 9090:9090```<br />
 Navigate to http://localhost:9090/ in your browser to access Prometheus
 
 ### When you want to delete
