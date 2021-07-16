@@ -97,7 +97,7 @@ If an error of ```error: You must be logged in to the server (Unauthorized)``` i
 
 ```kubectl edit -n kube-system configmap/aws-auth```
 
-This command will open the configuation file in your default editor of choice (e.g., nano, vi). Within the ```configfile``` map, addition of a ```mapusers``` node needs to be added with the ARN of the user requiring access. Ensire ```<account-number>``` is consistent and update ```<username>``` with the IAM username to be granted access.
+This command will open the configuation file in your default editor of choice (e.g., nano, vi). Within the ```configfile``` map, addition of a ```mapusers``` node needs to be added with the ARN of the user requiring access. Ensure ```<account-number>``` is consistent and update ```<username>``` with the IAM username to be granted access.
 
 ```configmap/aws-auth```
 
@@ -125,39 +125,27 @@ Port redirection is the preferred way to access the console resources of OpenClo
 
 ## Spinnaker
 ```kubectl -n spinnaker port-forward svc/spin-deck 9000:9000```
+Navigate to http://localhost:9000/ in your browser to access Spinnaker
 
 ## Grafana
 ```kubectl -n opencloudcx port-forward svc/grafana 3000:3000```
+Navigate to http://localhost:3000/ in your browser to access Grafana
 
 ## Prometheus
 ```kubectl -n opencloudcx port-forward svc/prometheus 9090:9090```
-
-- 
-- 
-- 
-
-- Navigate to http://localhost:9000/ in your browser to access Spinnakers
+Navigate to http://localhost:9090/ in your browser to access Prometheus
 
 ### When you want to delete
 rm -rf .terraform*
 
 rm -rf tfstate files inside your terraform execution dir 
 
-### Jenkins 
-* http://100.25.48.203/
-* admin/rebellis
-
-### Sonarqube
-* http://3.82.232.178/
-* admin/rebellis
-
 ### Portainer
 * kubectl get svc --all-namespaces
 * You should see a line like this:
 * portainer     portainer                     LoadBalancer   172.20.49.121    ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com   9000:31776/TCP,8000:32602/TCP   13d
 
-* Point your browser to i.e. http://ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com:9000 and setup the admin user/password. Keep it simple in line with Jenkins or Sonarqube.
-
+* Point your browser to i.e. http://ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com:9000 and setup the admin user/password. 
 
 ### Configure Spinnaker for Jenkins: https://spinnaker.io/setup/ci/jenkins/
 * Get to the command line for the Spinnaker Halyard container (Use kubectl or Portainer via web browser)
