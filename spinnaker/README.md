@@ -75,12 +75,18 @@ Install Terraform
 Run Terraform:
 ```
 terraform init
-terraform apply
+terraform apply --auto-approve
 ```
 Also you can use the `-var-file` option for customized paramters when you run the terraform plan/apply command.
 ```
 terraform plan -var-file=default.tfvars
-terraform apply -var-file=default.tfvars
+terraform apply -var-file=default.tfvars --auto-approve
+```
+
+If there are multiple AWS profiles availble for use, the Terraform commands can be prefixed 
+```
+AWS_PROFILE=<profile name> terraform init
+AWS_PROFILE=<profile name> terraform apply --autu-approve
 ```
 
 Once Terraform instructions have been applied, the following message will be displayed 
@@ -134,9 +140,9 @@ Navigate to http://localhost:3000/ in your browser to access Grafana
 Navigate to http://localhost:9090/ in your browser to access Prometheus
 
 ### When you want to delete
-rm -rf .terraform*
-
-rm -rf tfstate files inside your terraform execution dir 
+```
+terraform destroy --auto-approve
+```
 
 ### Portainer
 * kubectl get svc --all-namespaces
