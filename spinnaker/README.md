@@ -98,31 +98,6 @@ Once Terraform instructions have been applied, the following message will be dis
 ```aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME```
 
 ```kubectl get pods --all-namespaces```
-
-If an error of ```error: You must be logged in to the server (Unauthorized)``` is returned after the ```kubectl``` command, the following changes need to be made by the cluster owner.
-
-```kubectl edit -n kube-system configmap/aws-auth```
-
-This command will open the configuation file in your default editor of choice (e.g., nano, vi). Within the ```configfile``` map, addition of a ```mapusers``` node needs to be added with the ARN of the user requiring access. Ensure ```<account-number>``` is consistent and update ```<username>``` with the IAM username to be granted access.
-
-```
-apiVersion: v1
-data:
-  mapRoles: |
-    - rolearn: arn:aws:iam::<account-number>:role/example-dev-module-test-asdf-eks
-      username: system:node:{{EC2PrivateDNSName}}
-      groups:
-        - system:bootstrappers
-        - system:nodes
-  mapUsers: |
-    - userarn: arn:aws:iam::<account-number>:user/<username>
-      username: <username>
-      groups:
-        - system:masters
-```
-
-Once the editor is exited, the configuration file will be updated
-
 ### Port Redirection
 
 Port redirection is the preferred way to access the console resources of OpenCloudCX. (Use ```&``` at end of line in linux to run command in the background)
@@ -138,6 +113,45 @@ Navigate to http://localhost:3000/ in your browser to access Grafana
 #### Prometheus
 ```kubectl -n opencloudcx port-forward svc/prometheus 9090:9090```<br />
 Navigate to http://localhost:9090/ in your browser to access Prometheus
+
+#### External Access to Spinnaker
+```Run the following command to change node type to LoadBalancer
+kubectl -n spinnaker edit svc  spin-deck
+
+```The above command will open a text editor. Modify the spec: seciton of the document to match below```
+spec:
+  clusterIP: 172.20.147.234
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 30666
+    port: 80
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: spin
+    cluster: spin-deck
+  sessionAffinity: None
+  type: LoadBalancer
+  
+```Now we need the external ip```
+kubectl -n spinnaker get svc  spin-deck
+
+>>>Output<<<
+NAME        TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)        AGE
+spin-deck   LoadBalancer   172.20.147.234   a812e849e655f45e49c1c51973faa88e-192170068.us-east-1.elb.amazonaws.com   80:30666/TCP   139m
+
+```Once you save the file then run the following command with the 
+ nslookup a812e849e655f45e49c1c51973faa88e-192170068.us-east-1.elb.amazonaws.com
+
+>>>Output<<<<
+Server:  UnKnown
+Address:  10.0.0.1
+
+Non-authoritative answer:
+Name:    a812e849e655f45e49c1c51973faa88e-192170068.us-east-1.elb.amazonaws.com
+Addresses:  52.202.54.86
+          54.224.175.206
+```Connect to either ip address above```
 
 ### When you want to delete
 ```
