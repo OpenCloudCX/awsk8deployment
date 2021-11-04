@@ -30,10 +30,10 @@ provider "aws" {
 }
 
 module "opencloudcx" {
-  source  = "OpenCloudCX/opencloudcx/aws"
-  version = ">= 0.3.13"
+  # source  = "OpenCloudCX/opencloudcx/aws"
+  # version = ">= 0.3.13"
 
-  # source = "../../terraform-aws-opencloudcx"
+  source = "../../terraform-aws-opencloudcx"
 
   name               = "riva"
   stack              = "dev"
@@ -68,25 +68,16 @@ module "opencloudcx" {
     version   = "5.7.12"
   }
 
-  # helm_repo          = "https://helmcharts.opsmx.com/"
   helm_chart_version = "2.2.3"
   helm_chart_values  = [file("values.yaml")]
   assume_role_arn = [module.spinnaker-managed-role.role_arn]
-
-  # kubernetes_secrets = {
-  #   "ajn-personal" = kubernetes_secret.dockerhub_secret_ajn_personal
-  # }
-
-  # dockerhub_secret_name = "ajnriva-cred"
-  # dockerhub_username = "ajnriva"
-  # dockerhub_secret = var.dockerhub_secret
 }
 
 module "spinnaker-managed-role" {
-  source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
-  version = "~> 0.3.13"
+  # source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
+  # version = "~> 0.3.13"
 
-  # source = "../../terraform-aws-opencloudcx/modules/spinnaker-managed-aws"
+  source = "../../terraform-aws-opencloudcx/modules/spinnaker-managed-aws"
 
   providers        = { aws = aws.prod }
   name             = "riva"

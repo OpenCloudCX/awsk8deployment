@@ -129,18 +129,3 @@ variable "tags" {
   default     = {}
 }
 
-variable "dockerhub_secret" {
-  type = string
-}
-
-variable "dockerhub_secret_name" {
-  type = string
-}
-
-variable "dockerhub_username" {
-  type = string
-}
-
-variable "github_access_token" {
-  type = string
-}
