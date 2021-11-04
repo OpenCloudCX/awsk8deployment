@@ -1,179 +1,170 @@
-# Full example of spinnaker module for AWS
+# Full example of OpenCloudCX setup in AWS
 
-## Usage example
-You can use this module like below. This shows how to create the resources for spinnaker. This module will create vpc, subnets, s3 bucket, iam policies and kubernetes cluster.
+This repository contains a framework to use for creation of an OpenCloudCX cluster. After cloning this repository, refer to the below sections for configuration.
 
-### Setup
-This is the first step to create a spinnaker cluster. Just get terraform module and apply it with your custom variables.
-```hcl
-# Complete example
+# Toolsets
 
-terraform {
-  required_version = "~> 0.14.2"
-}
+This project uses multiple open source toolsets for environment creation. 
 
-provider "aws" {
-  region              = var.aws_region
-  allowed_account_ids = [var.aws_account_id]
-  version             = ">= 3.0"
-}
+|Toolset|Links|Notes|
+|---|---|---|
+|Terraform&nbsp;(version&nbsp;0.14.2)|[Download](https://releases.hashicorp.com/terraform/0.14.2/) | Terraform is distributed as a single binary. Install Terraform by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them) |
+|AWS&nbsp;CLI|[Instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) \|\| [Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)|This link provides information for getting started with version 2 of the AWS Command Line Interface (AWS CLI)|
+|kubectl|[Instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)|Allows commands to be executed against Kubernetes clusters|
 
-provider "aws" {
-  alias               = "prod"
-  region              = var.aws_region
-  allowed_account_ids = [var.aws_account_id]
-  version             = ">= 3.0"
-}
+# Setup
 
+Once all toolsets are installed and verified to be operational, configure the cloned bootstrap project.
 
-module "opencloudcx" {
-  source  = "OpenCloudCX/opencloudcx/aws"
-  version = "~> 0.1.0"
+## AWS S3 State Bucket
+OpenCloudCX uses Terraform state buckets to store all infrastructure snapshot information (e.g., S3 buckets, VPC, EC2, EKS). State buckets allow for teams to have a centralized souce of truth for the infrastructure. Per AWS S3 requirements, this bucket name needs to be globally unique. This bucket is not created automatically and needs to be in place before the terraform project is initialized. 
 
-  name               = "example"
-  stack              = "dev"
-  detail             = "module-test"
-  tags               = { "env" = "dev" }
-  region             = "us-east-1"
-  azs                = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  cidr               = "10.0.0.0/16"
-  dns_zone           = "your.private"
-  kubernetes_version = "1.17"
-  kubernetes_node_groups = {
-    default = {
-      instance_type = "m5.large"
-      min_size      = "1"
-      max_size      = "3"
-      desired_size  = "2"
-    }
+Follows [these]() instructions to create a unique bucket in the account where OpenCloudCX is going to be installed. A good conventioni for this project is to create and use ```opencloucx-state-bucket-####``` and replace ```####``` with the last 4 digits of the AWS account number. 
+
+Once the bucket has been created, change the state bucket name in the ```main.tf``` file of this project. 
+
+```bash
+  backend "s3" {
+    key    = "opencloudcx"
+    bucket = "opencloudcx-state-bucket-####"
+    region = "us-east-1"
   }
-  aurora_cluster = {
-    node_size = "1"
-    node_type = "db.t3.medium"
-    version   = "5.7.12"
-  }
-  helm_chart_version = "2.1.0-rc.1"
-  helm_chart_values  = [file("values.yaml")]
-  assume_role_arn    = [module.spinnaker-managed-role.role_arn]
-}
-
-# spinnaker managed role
-module "spinnaker-managed-role" {
-  source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
-  version = "~> 0.1.0"
-
-  providers        = { aws = aws.prod }
-  name             = "example"
-  stack            = "dev"
-  trusted_role_arn = [module.opencloudcx.role_arn]
-}
-```
-### Terraform
-
-Install Terraform
-
-Run Terraform:
-```
-terraform init
-terraform apply --auto-approve
-```
-Also you can use the `-var-file` option for customized paramters when you run the terraform plan/apply command.
-```
-terraform plan -var-file=default.tfvars
-terraform apply -var-file=default.tfvars --auto-approve
 ```
 
-If there are multiple AWS profiles availble for use, the Terraform commands can be prefixed 
+## Project Variables
+
+Create a copy of the ```variables.example.tfvars``` file and name it ```variables.auto.tfvars```. If another filename needs to be used, Terraform automatically loads a number of variable definitions files if named the following way:
+* Files named exactly ```terraform.tfvars``` or ```terraform.tfvars.json```
+* Any files with names ending in ```.auto.tfvars``` or ```.auto.tfvars.json```
+
+## AWS Account Number
+
+Update the account number in the project variables file. 
+
+```bash
+aws_account_id     = "123456789012"
 ```
-AWS_PROFILE=<profile name> terraform init
-AWS_PROFILE=<profile name> terraform apply --autu-approve
+
+## OPTIONAL: DNS CONFIGURATION
+
+To experience the full impact of an OpenCloudCX installation, a valid, publicly accessible DNS zone needs to be supplied within the configuration. The default DNS Zone of ```spinnaker.internal``` can be used for initial prototyping with appropriate local hosts file manipulation. 
+
+DNS configuration changes are made in the project variables file.
+
+```bash
+dns_zone           = "spinnaker.internal"
 ```
+
+# Environment creation
+
+## Initialize Terraform and Execute
+
+### ```terraform init```
+
+The ```init``` command tells Terraform to initialize the project from the current working directory of terraform configurations. If commands relying on initialization are executed before this step, the command will fail with an error.
+
+From [terraform.io](https://www.terraform.io/docs/cli/init/index.html)
+
+>Initialization performs several tasks to prepare a directory, including accessing state in the configured backend, downloading and installing provider plugins, and downloading modules. Under some conditions (usually when changing from one backend to another), it might ask the user for guidance or confirmation.
+
+### ```terraform apply```
+
+From [terraform.io](https://www.terraform.io/docs/cli/commands/apply.html)
+
+>The terraform apply command performs a plan just like terraform plan does, but then actually carries out the planned changes to each resource using the relevant infrastructure provider's API. It asks for confirmation from the user before making any changes, unless it was explicitly told to skip approval.
+### Command Execution
+
+Execute these two commands in succession.
+
+```
+$ terraform init
+$ terraform apply --auto-approve
+```
+---
+_NOTE: Terraform assumes the current ```[default]``` profile contains the appropriate credentials for environment initialization. If this is not correct, each Terraform command needs to be prefixed with ```AWS_PROFILE=``` and the desired AWS profile to use._
+
+```
+$ AWS_PROFILE=<profile name> terraform init
+$ AWS_PROFILE=<profile name> terraform apply --auto-approve
+```
+---
 
 Once Terraform instructions have been applied, the following message will be displayed 
 
-<< INSERT MESSAGE HERE>>
+<span style='font-size: 13pt; color: green'>Apply complete! Resources: ### added, 0 changed, 0 destroyed.</span>
+# Environment Validation
 
-### Validate Installation
+Once a successful message of completion has been achieved, connect to the OpenCloudCX cluster by executing the ```connect.sh``` command with the desired AWS profile.
 
-```aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME```
-
-```kubectl get pods --all-namespaces```
-### Port Redirection
-
-Port redirection is the preferred way to access the console resources of OpenCloudCX. (Use ```&``` at end of line in linux to run command in the background)
-
-#### Spinnaker
-```kubectl -n spinnaker port-forward svc/spin-deck 9000:9000```<br />
-Navigate to http://localhost:9000/ in your browser to access Spinnaker
-
-#### Grafana
-```kubectl -n opencloudcx port-forward svc/grafana 3000:3000```<br />
-Navigate to http://localhost:3000/ in your browser to access Grafana
-
-#### Prometheus
-```kubectl -n opencloudcx port-forward svc/prometheus 9090:9090```<br />
-Navigate to http://localhost:9090/ in your browser to access Prometheus
-
-#### External Access to Spinnaker
-```Run the following command to change node type to LoadBalancer
-kubectl -n spinnaker edit svc  spin-deck
-
-```The above command will open a text editor. Modify the spec: seciton of the document to match below```
-spec:
-  clusterIP: 172.20.147.234
-  externalTrafficPolicy: Cluster
-  ports:
-  - nodePort: 30666
-    port: 80
-    protocol: TCP
-    targetPort: 9000
-  selector:
-    app: spin
-    cluster: spin-deck
-  sessionAffinity: None
-  type: LoadBalancer
-  
-```Now we need the external ip```
-kubectl -n spinnaker get svc  spin-deck
-
->>>Output<<<
-NAME        TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)        AGE
-spin-deck   LoadBalancer   172.20.147.234   a812e849e655f45e49c1c51973faa88e-192170068.us-east-1.elb.amazonaws.com   80:30666/TCP   139m
-
-```Once you save the file then run the following command with the 
- nslookup a812e849e655f45e49c1c51973faa88e-192170068.us-east-1.elb.amazonaws.com
-
->>>Output<<<<
-Server:  UnKnown
-Address:  10.0.0.1
-
-Non-authoritative answer:
-Name:    a812e849e655f45e49c1c51973faa88e-192170068.us-east-1.elb.amazonaws.com
-Addresses:  52.202.54.86
-          54.224.175.206
-```Connect to either ip address above```
-
-### When you want to delete
-```
-terraform destroy --auto-approve
+```bash
+$ connect.sh --profile <profile name>
 ```
 
-### Portainer
-* kubectl get svc --all-namespaces
-* You should see a line like this:
-* portainer     portainer                     LoadBalancer   172.20.49.121    ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com   9000:31776/TCP,8000:32602/TCP   13d
+Output:
+|Label|Description|
+|---|---|
+|Cluster name|Name of the Kubernetes cluster for OpenCloudCX. This name will always contain a 4-character randomized string at the end|
+|Dashboard&nbsp;token|Token for use when authenticating to the Kubeternetes dashboard (see below)|
+|Jenkins PW|Jenkins admin password|
 
-* Point your browser to i.e. http://ab1a9a5a20c6645c1b7ebe9e21374879-1220642400.us-east-1.elb.amazonaws.com:9000 and setup the admin user/password. 
+Execute following command to list the PODS in the cluster
 
-### Configure Spinnaker for Jenkins: https://spinnaker.io/setup/ci/jenkins/
-* Get to the command line for the Spinnaker Halyard container (Use kubectl or Portainer via web browser)
-##### Run the following commands:
-* hal config ci jenkins enable
-* echo TOKEN | hal config ci jenkins master add jenkins --address http://100.25.48.203/ --username admin --password
-* hal deploy apply
+```bash
+$ kubectl get namespaces -A
 
-### Enable Spinnaker Prometheus Integration
-* https://spinnaker.io/setup/monitoring/prometheus/
+NAME                   STATUS   AGE
+anchore-engine         Active   9h
+cert-manager           Active   9h
+dashboard              Active   9h
+default                Active   9h
+develop                Active   9h
+ingress-nginx          Active   9h
+ingress-nginx-secure   Active   9h
+jenkins                Active   9h
+kube-node-lease        Active   9h
+kube-public            Active   9h
+kube-system            Active   9h
+opencloudcx            Active   9h
+portainer              Active   9h
+sonarqube              Active   9h
+spinnaker              Active   9h
+```
 
-### Canary
-* https://spinnaker.io/setup/canary/
+# OpenCloudCX Constituents and Credentials
+
+To access the individual toolsets contained within the OpenCloudCX enclave, use the following URLs, with the appropriate DNS zone from above, paired with the credentials outlined.
+
+|Name|URL|Username|Password Location|
+|---|---|---|---|
+|Code Server| ```https://code-server.[DNS ZONE]```|None|AWS Secrets Manager|
+|Dashboard| ```https://dashboard.[DNS ZONE]```|None|```connect.sh``` token output|
+|Grafana| ```https://grafana.[DNS ZONE]```|admin|AWS Secrets Manager|
+|Jenkins| ```https://jenkins.[DNS ZONE]```|admin|AWS Secrets Manager or ```connect.sh``` token output|
+|Keycloak| ```https://keycloak.[DNS ZONE]```|user|AWS Secrets Manager|
+|Selenium| ```https://selenium.[DNS ZONE]```|None|None|
+|SonarQube| ```https://sonarqube.[DNS ZONE]```|admin|AWS Secrets Manager|
+|Spinnaker| ```https://spinnaker.[DNS ZONE]```|None|None|
+
+# Code-Server configuration
+
+The OpenCloudCX enclave include an out-of-the-box Code Server instance allowing for a browser-based VSCode instance. Once the password has been retrieved from AWS Secrets Manager and used to authenticate to the server, some generic configuration will be necessary.
+
+## Create SSH Key
+Each instance will need to create their own SSH key for use within the github repository. To bring up the console within Code-Server, press ```SHIFT-~``` and a terminal window will display at the bottom of the browser page. 
+
+```bash
+$ ssh-keygen
+
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/kodelib/.ssh/id_rsa): <enter>
+Created directory '/home/kodelib/.ssh'.
+Enter passphrase (empty for no passphrase): <enter>
+Enter same passphrase again: <enter>
+Your identification has been saved in /home/kodelib/.ssh/id_rsa
+Your public key has been saved in /home/kodelib/.ssh/id_rsa.pub
+```
+
+Use [these instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to copy the public key from ```id_rsa.pub``` to github.
+
+NOTE: If a 403 error message occurs when attempting to push changes to the repository after keys have been exchanged, check the ```url``` in ```.git/config``` file. If it begins with ```https://github.com```, change it to ```ssh://git@github.com/```. Further reference is in [stack**overflow**](https://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed/)
+
