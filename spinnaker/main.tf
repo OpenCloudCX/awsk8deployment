@@ -5,7 +5,7 @@ terraform {
 
   backend "s3" {
     key    = "opencloudcx"
-    bucket = "opencloudcx-state-bucket-6723"
+    bucket = "opencloudcx-state-bucket-0044"
     region = "us-east-1"
   }
 }
@@ -30,10 +30,10 @@ provider "aws" {
 }
 
 module "opencloudcx" {
-  # source  = "OpenCloudCX/opencloudcx/aws"
-  # version = ">= 0.3.11"
+  source  = "OpenCloudCX/opencloudcx/aws"
+  version = ">= 0.3.13"
 
-  source = "../../terraform-aws-opencloudcx"
+  # source = "../../terraform-aws-opencloudcx"
 
   name               = "riva"
   stack              = "dev"
@@ -69,7 +69,6 @@ module "opencloudcx" {
   }
 
   # helm_repo          = "https://helmcharts.opsmx.com/"
-
   helm_chart_version = "2.2.3"
   helm_chart_values  = [file("values.yaml")]
   assume_role_arn = [module.spinnaker-managed-role.role_arn]
@@ -84,10 +83,10 @@ module "opencloudcx" {
 }
 
 module "spinnaker-managed-role" {
-  # source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
-  # version = "~> 0.3.11"
+  source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
+  version = "~> 0.3.13"
 
-  source = "../../terraform-aws-opencloudcx/modules/spinnaker-managed-aws"
+  # source = "../../terraform-aws-opencloudcx/modules/spinnaker-managed-aws"
 
   providers        = { aws = aws.prod }
   name             = "riva"
