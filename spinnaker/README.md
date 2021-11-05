@@ -55,6 +55,21 @@ DNS configuration changes are made in the project variables file.
 dns_zone           = "spinnaker.internal"
 ```
 
+## Check version of terraform modules
+There are 2 sections within the ```main.tf``` file where the version of the terraform module can be changed. In the below snippets, the current version is ```0.3.13```. This number should correspond to the latest version at the [OpenCloudCX Terraform Module](https://registry.terraform.io/modules/OpenCloudCX/opencloudcx/aws/latest) page.
+
+```bash
+module "opencloudcx" {
+  source  = "OpenCloudCX/opencloudcx/aws"
+  version = ">= 0.3.13"
+```
+
+```bash
+module "spinnaker-managed-role" {
+  source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
+  version = "~> 0.3.13"
+```
+
 # Environment creation
 
 ## Initialize Terraform and Execute
