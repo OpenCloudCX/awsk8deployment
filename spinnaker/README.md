@@ -11,8 +11,7 @@ This project uses multiple open source toolsets for environment creation.
 |Terraform&nbsp;(version&nbsp;0.14.2)|[Download](https://releases.hashicorp.com/terraform/0.14.2/) | Terraform is distributed as a single binary. Install Terraform by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them) |
 |AWS&nbsp;CLI|[Instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) \|\| [Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)|This link provides information for getting started with version 2 of the AWS Command Line Interface (AWS CLI)|
 |kubectl|[Instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)|Allows commands to be executed against Kubernetes clusters|
-
-Git - need to run this command to avoid a CRLF issues: git config --global core.autocrlf input
+| Git |[Instructions]()| need to run this command to avoid a CRLF issues: git config --global core.autocrlf input|
 
 # Setup
 
