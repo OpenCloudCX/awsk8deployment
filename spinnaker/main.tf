@@ -5,7 +5,7 @@ terraform {
 
   backend "s3" {
     key    = "opencloudcx"
-    bucket = "opencloudcx-state-bucket-0044"
+    bucket = "opencloudcx-state-bucket-7148"
     region = "us-east-1"
   }
 }
@@ -31,7 +31,7 @@ provider "aws" {
 
 module "opencloudcx" {
   source  = "OpenCloudCX/opencloudcx/aws"
-  version = ">= 0.3.13"
+  version = ">= 0.3.15"
 
   # source = "../../terraform-aws-opencloudcx"
 
@@ -75,7 +75,7 @@ module "opencloudcx" {
 
 module "spinnaker-managed-role" {
   source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
-  version = "~> 0.3.13"
+  version = "~> 0.3.15"
 
   # source = "../../terraform-aws-opencloudcx/modules/spinnaker-managed-aws"
 
