@@ -95,6 +95,17 @@ Execute these two commands in succession.
 $ terraform init
 $ terraform apply --auto-approve
 ```
+
+If you receive the following error, confirm the s3 state bucket referenced above is correct
+
+```bash
+Successfully configured the backend "s3"! Terraform will automatically
+use this backend unless the backend configuration changes.
+Error refreshing state: AccessDenied: Access Denied
+        status code: 403, request id: <string> host id: <string>
+```
+
+
 ---
 _NOTE: Terraform assumes the current ```[default]``` profile contains the appropriate credentials for environment initialization. If this is not correct, each Terraform command needs to be prefixed with ```AWS_PROFILE=``` and the desired AWS profile to use._
 
