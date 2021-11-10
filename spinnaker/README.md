@@ -108,7 +108,8 @@ Error refreshing state: AccessDenied: Access Denied
 
 ---
 _NOTE: Terraform assumes the current ```[default]``` profile contains the appropriate credentials for environment initialization. If this is not correct, each Terraform command needs to be prefixed with ```AWS_PROFILE=``` and the desired AWS profile to use._
-
+On Linux this can be found in your home directory .aws update both credentials and config file
+On Windows C:\Users\[username]\.aws update both credentials and config file
 ```
 $ AWS_PROFILE=<profile name> terraform init
 $ AWS_PROFILE=<profile name> terraform apply --auto-approve
