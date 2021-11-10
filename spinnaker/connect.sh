@@ -1,10 +1,13 @@
 #!/bin/bash
 
 function usage() {
-    echo "usage: connect.sh [options]\\n\\n"
-    echo "  options:\\n\\n"
-    echo "    -p, --profile\\t     AWS profile name to use for execution\\n"
-    echo "\\n\\n"
+    echo "usage: connect.sh [options]"
+    echo " "
+    echo "  options:"
+    echo " "
+    echo "    -p, --profile   AWS profile name to use for execution"
+    echo "    -d. --default   Use default profile"
+    echo " "
 }
 
 _POSITIONAL=()
@@ -15,6 +18,11 @@ _key="$1"
 case $_key in
   -p|--profile)
     _PROFILE="$2"
+    shift
+    shift
+    ;;
+  -d|--default)
+    _PROFILE="default"
     shift
     shift
     ;;
@@ -29,14 +37,17 @@ done
 set -- "${POSITIONAL[@]}"
 
 if [ -z "$_PROFILE" ]; then
-  echo ""
-  echo "Profile has not been specified."
-  echo ""
-  echo -e $(usage)
+  echo " "
+  echo "No profile specified. Defaulting to [default] entry in configuration (~/.aws/credentials). Use -p to specify a named profile to use."
+  _PROFILE="default"
+fi
+_k8sName=$(aws eks list-clusters --profile $_PROFILE --region us-east-1 | jq -r ".clusters[0]")
+
+if [ -z "$_k8sName" ]; then
+  echo " "
+  echo "No kubernetes cluster found for [$_PROFILE] profile. Exiting."
   exit
 fi
-
-_k8sName=$(aws eks list-clusters --profile $_PROFILE --region us-east-1 | jq -r ".clusters[0]")
 
 # do the mubectl thing
 aws eks --region us-east-1 update-kubeconfig --name "$_k8sName" --profile $_PROFILE
