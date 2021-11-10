@@ -127,6 +127,9 @@ Once a successful message of completion has been achieved, connect to the OpenCl
 ```bash
 $ connect.sh --profile <profile name>
 ```
+Windows Users run: aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME
+
+kubectl get pods --all-namespaces
 
 Output:
 |Label|Description|
