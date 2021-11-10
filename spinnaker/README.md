@@ -37,7 +37,7 @@ Create a copy of the ```variables.example.tfvars``` file and name it ```variable
 * Files named exactly ```terraform.tfvars``` or ```terraform.tfvars.json```
 * Any files with names ending in ```.auto.tfvars``` or ```.auto.tfvars.json```
 
-## AWS Account Number
+### AWS Account Number
 
 Update the account number in the project variables file. 
 
@@ -45,7 +45,7 @@ Update the account number in the project variables file.
 aws_account_id     = "123456789012"
 ```
 
-## OPTIONAL: DNS CONFIGURATION
+### OPTIONAL: DNS CONFIGURATION
 
 To experience the full impact of an OpenCloudCX installation, a valid, publicly accessible DNS zone needs to be supplied within the configuration. The default DNS Zone of ```spinnaker.internal``` can be used for initial prototyping with appropriate local hosts file manipulation. 
 
