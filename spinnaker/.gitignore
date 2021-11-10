@@ -4,3 +4,9 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+secrets.auto.**
+variables.auto.tfvars
+
+!secrets.example.tfvars
+!variables.example.tfvars

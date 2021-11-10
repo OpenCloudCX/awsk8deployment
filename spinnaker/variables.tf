@@ -28,12 +28,12 @@ variable "cidr" {
 variable "kubernetes_version" {
   description = "The target version of kubernetes"
   type        = string
-  default     = "1.17"
+  default     = "1.21"
 }
 
 variable "kubernetes_node_groups" {
   description = "Node group definitions"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -42,7 +42,7 @@ variable "kubernetes_node_groups" {
 ### rdb cluster (aurora-mysql)
 variable "aurora_cluster" {
   description = "RDS Aurora for mysql cluster definition"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -51,6 +51,12 @@ variable "assume_role_arn" {
   description = "The list of ARNs of target AWS role that you want to manage with spinnaker. e.g.,) arn:aws:iam::12345678987:role/spinnakerManaged"
   type        = list(string)
   default     = []
+}
+
+variable "kubernetes_secrets" {
+  description = "Kubernetes secrets to plant into ecosystem"
+  type        = map(any)
+  default     = {}
 }
 
 ### dns
@@ -71,6 +77,12 @@ variable "helm_repo_opencloudcx" {
   description = "A repositiry url of helm chart to deploy a opencloudcx"
   type        = string
   default     = " https://opencloudcx.github.io/grafana-helm/"
+}
+
+variable "helm_jenkins" {
+  description = "A repository url of the helm chart to deploy jenkins."
+  type        = string
+  default     = "https://charts.jenkins.io"
 }
 
 variable "helm_timeout" {
@@ -116,3 +128,4 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
