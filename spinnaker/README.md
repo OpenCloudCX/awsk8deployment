@@ -12,6 +12,8 @@ This project uses multiple open source toolsets for environment creation.
 |AWS&nbsp;CLI|[Instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) \|\| [Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)|This link provides information for getting started with version 2 of the AWS Command Line Interface (AWS CLI)|
 |kubectl|[Instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)|Allows commands to be executed against Kubernetes clusters|
 
+Git - need to run this command to avoid a CRLF issues: git config --global core.autocrlf input
+
 # Setup
 
 Once all toolsets are installed and verified to be operational, configure the cloned bootstrap project.
