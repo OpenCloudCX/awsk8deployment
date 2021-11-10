@@ -194,7 +194,12 @@ Enter same passphrase again: <enter>
 Your identification has been saved in /home/kodelib/.ssh/id_rsa
 Your public key has been saved in /home/kodelib/.ssh/id_rsa.pub
 ```
+The following configuration must also be set to do commit and push
 
+```bash
+git config --global user.email "<email>"
+git config --global user.name "<name>"
+```
 Use [these instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to copy the public key from ```id_rsa.pub``` to github.
 
 NOTE: If a 403 error message occurs when attempting to push changes to the repository after keys have been exchanged, check the ```url``` in ```.git/config``` file. If it begins with ```https://github.com```, change it to ```ssh://git@github.com/```. Further reference is in [stack**overflow**](https://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed/)
