@@ -61,13 +61,13 @@ There are 2 sections within the ```main.tf``` file where the version of the terr
 ```bash
 module "opencloudcx" {
   source  = "OpenCloudCX/opencloudcx/aws"
-  version = ">= 0.3.13"
+  version = ">= 0.3.15"
 ```
 
 ```bash
 module "spinnaker-managed-role" {
   source  = "OpenCloudCX/opencloudcx/aws//modules/spinnaker-managed-aws"
-  version = "~> 0.3.13"
+  version = "~> 0.3.15"
 ```
 
 # Environment creation
