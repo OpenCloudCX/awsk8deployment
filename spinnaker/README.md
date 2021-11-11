@@ -181,7 +181,7 @@ To access the individual toolsets contained within the OpenCloudCX enclave, use 
 The OpenCloudCX enclave include an out-of-the-box Code Server instance allowing for a browser-based VSCode instance. Once the password has been retrieved from AWS Secrets Manager and used to authenticate to the server, some generic configuration will be necessary.
 
 ## Create SSH Key
-Each instance will need to create their own SSH key for use within the github repository. To bring up the console within Code-Server, press ```SHIFT-~``` and a terminal window will display at the bottom of the browser page. 
+Each instance will need to create their own SSH key for use within the github repository. To bring up the console within Code-Server, press ```CTRL-~``` and a terminal window will display at the bottom of the browser page. 
 
 ```bash
 $ ssh-keygen
