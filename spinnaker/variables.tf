@@ -66,24 +66,24 @@ variable "dns_zone" {
   default     = "spinnaker.internal"
 }
 
-### helm
-variable "helm_repo" {
-  description = "A repositiry url of helm chart to deploy a spinnaker"
-  type        = string
-  default     = "https://opencloudcx.github.io/spinnaker-helm/"
-}
+# ### helm
+# variable "helm_repo" {
+#   description = "A repositiry url of helm chart to deploy a spinnaker"
+#   type        = string
+#   default     = "https://opencloudcx.github.io/spinnaker-helm/"
+# }
 
-variable "helm_repo_opencloudcx" {
-  description = "A repositiry url of helm chart to deploy a opencloudcx"
-  type        = string
-  default     = " https://opencloudcx.github.io/grafana-helm/"
-}
+# variable "helm_repo_grafana" {
+#   description = "A repositiry url of helm chart to deploy grafana"
+#   type        = string
+#   default     = "https://grafana.github.io/helm-charts"
+# }
 
-variable "helm_jenkins" {
-  description = "A repository url of the helm chart to deploy jenkins."
-  type        = string
-  default     = "https://charts.jenkins.io"
-}
+# variable "helm_jenkins" {
+#   description = "A repository url of the helm chart to deploy jenkins."
+#   type        = string
+#   default     = "https://charts.jenkins.io"
+# }
 
 variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
