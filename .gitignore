@@ -1,1 +1,2 @@
 spinnaker/*.code-workspace
+spinnaker/.terraform.lock.hcl
