@@ -95,7 +95,6 @@ resource "aws_secretsmanager_secret_version" "keycloak_admin_secret_version" {
   secret_string = "{\"username\": \"user\", \"password\": \"${random_password.keycloak_admin_password.result}\"}"
 }
 
-
 resource "aws_secretsmanager_secret" "keycloak_user_secret" {
   name                    = "${random_string.random.id}-keycloak-user"
   recovery_window_in_days = 0
@@ -110,6 +109,25 @@ resource "random_password" "keycloak_user_password" {
 resource "aws_secretsmanager_secret_version" "keycloak_user_secret_version" {
   secret_id     = aws_secretsmanager_secret.keycloak_user_secret.id
   secret_string = "{\"username\": \"manager\", \"password\": \"${random_password.keycloak_user_password.result}\"}"
+}
+
+##################################
+## Grafana 
+
+resource "aws_secretsmanager_secret" "grafana_secret" {
+  name                    = "${random_string.random.id}-grafana"
+  recovery_window_in_days = 0
+}
+
+resource "random_password" "grafana_password" {
+  length           = 24
+  special          = true
+  override_special = "_%@"
+}
+
+resource "aws_secretsmanager_secret_version" "grafana_secret_version" {
+  secret_id     = aws_secretsmanager_secret.grafana_secret.id
+  secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.grafana_password.result}\"}"
 }
 
 
