@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    key    = "opencloudcx"
+    key    = "[terraform-state-filename]"
     bucket = "[bucket-name]" 
-    region = "us-east-1"
+    region = "[region]"
   }
 }
