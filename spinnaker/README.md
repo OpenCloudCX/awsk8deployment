@@ -11,6 +11,7 @@ This project uses multiple open source toolsets for environment creation.
 |Terraform&nbsp;(version&nbsp;0.14.2)|[Download](https://releases.hashicorp.com/terraform/0.14.2/) | Terraform is distributed as a single binary. Install Terraform by unzipping it and moving it to a directory included in your system's [PATH](https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them) |
 |AWS&nbsp;CLI|[Instructions](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) \|\| [Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)|This link provides information for getting started with version 2 of the AWS Command Line Interface (AWS CLI)|
 |kubectl|[Instructions](https://kubernetes.io/docs/tasks/tools/#kubectl)|Allows commands to be executed against Kubernetes clusters|
+| Git |[Instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)| need to run this command to avoid a CRLF issues: git config --global core.autocrlf input|
 
 # Setup
 
@@ -126,6 +127,9 @@ Once a successful message of completion has been achieved, connect to the OpenCl
 ```bash
 $ connect.sh --profile <profile name>
 ```
+Windows Users run: aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME
+
+kubectl get pods --all-namespaces
 
 Output:
 |Label|Description|
@@ -177,7 +181,7 @@ To access the individual toolsets contained within the OpenCloudCX enclave, use 
 The OpenCloudCX enclave include an out-of-the-box Code Server instance allowing for a browser-based VSCode instance. Once the password has been retrieved from AWS Secrets Manager and used to authenticate to the server, some generic configuration will be necessary.
 
 ## Create SSH Key
-Each instance will need to create their own SSH key for use within the github repository. To bring up the console within Code-Server, press ```SHIFT-~``` and a terminal window will display at the bottom of the browser page. 
+Each instance will need to create their own SSH key for use within the github repository. To bring up the console within Code-Server, press ```CTRL-~``` and a terminal window will display at the bottom of the browser page. 
 
 ```bash
 $ ssh-keygen
@@ -190,7 +194,12 @@ Enter same passphrase again: <enter>
 Your identification has been saved in /home/kodelib/.ssh/id_rsa
 Your public key has been saved in /home/kodelib/.ssh/id_rsa.pub
 ```
+The following configuration must also be set to do commit and push
 
+```bash
+git config --global user.email "<email>"
+git config --global user.name "<name>"
+```
 Use [these instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to copy the public key from ```id_rsa.pub``` to github.
 
 NOTE: If a 403 error message occurs when attempting to push changes to the repository after keys have been exchanged, check the ```url``` in ```.git/config``` file. If it begins with ```https://github.com```, change it to ```ssh://git@github.com/```. Further reference is in [stack**overflow**](https://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed/)
