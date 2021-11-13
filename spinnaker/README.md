@@ -18,17 +18,19 @@ This project uses multiple open source toolsets for environment creation.
 Once all toolsets are installed and verified to be operational, configure the cloned bootstrap project.
 
 ## AWS S3 State Bucket
-OpenCloudCX uses Terraform state buckets to store all infrastructure snapshot information (e.g., S3 buckets, VPC, EC2, EKS). State buckets allow for teams to have a centralized souce of truth for the infrastructure. Per AWS S3 requirements, this bucket name needs to be globally unique. This bucket is not created automatically and needs to be in place before the terraform project is initialized. 
+If remote state storge is desired, follow the instructions in this section. If not, skip to *Project Variables*. This file is not required for successful environment generation.
 
-Follows [these]() instructions to create a unique bucket in the account where OpenCloudCX is going to be installed. A good conventioni for this project is to create and use ```opencloucx-state-bucket-####``` and replace ```####``` with the last 4 digits of the AWS account number. 
+OpenCloudCX can use Terraform state buckets to store all infrastructure snapshot information (e.g., S3 buckets, VPC, EC2, EKS). State buckets allow for teams to have a centralized souce of truth for the infrastructure. Per AWS S3 requirements, this bucket name needs to be globally unique. This bucket is not created automatically and needs to be in place before the terraform project is initialized. 
 
-Once the bucket has been created, change the state bucket name in the ```main.tf``` file of this project. 
+Follows [these]() instructions to create a unique bucket in the account where OpenCloudCX is going to be installed. A good convention for this project is to create and use ```opencloucx-state-bucket-####``` and replace ```####``` with the last 4 digits of the AWS account number. 
+
+Once the bucket has been created, copy ```state.tf.example``` and rename the copy (not the original) to ```state.tf```. Update the requested and save. 
 
 ```bash
   backend "s3" {
-    key    = "opencloudcx"
-    bucket = "opencloudcx-state-bucket-####"
-    region = "us-east-1"
+    key    = "[terraform-state-filename]"
+    bucket = "[bucket name]"
+    region = "[region]"
   }
 ```
 
