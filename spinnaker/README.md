@@ -171,7 +171,7 @@ To access the individual toolsets contained within the OpenCloudCX enclave, use 
 |Dashboard| ```https://dashboard.[DNS ZONE]```|None|```connect.sh``` token output|
 |Grafana| ```https://grafana.[DNS ZONE]```|admin|AWS Secrets Manager|
 |Jenkins| ```https://jenkins.[DNS ZONE]```|admin|AWS Secrets Manager or ```connect.sh``` token output|
-|Keycloak| ```https://keycloak.[DNS ZONE]```|user|AWS Secrets Manager|
+|Keycloak| ```https://keycloak.[DNS ZONE]```|user|AWS Secrets Manager [```keycloak-admin```]|
 |Selenium| ```https://selenium.[DNS ZONE]```|None|None|
 |SonarQube| ```https://sonarqube.[DNS ZONE]```|admin|AWS Secrets Manager|
 |Spinnaker| ```https://spinnaker.[DNS ZONE]```|None|None|
