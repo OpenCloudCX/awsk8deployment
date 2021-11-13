@@ -92,7 +92,7 @@ resource "random_password" "keycloak_admin_password" {
 
 resource "aws_secretsmanager_secret_version" "keycloak_admin_secret_version" {
   secret_id     = aws_secretsmanager_secret.keycloak_admin_secret.id
-  secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.keycloak_admin_password.result}\"}"
+  secret_string = "{\"username\": \"user\", \"password\": \"${random_password.keycloak_admin_password.result}\"}"
 }
 
 
@@ -109,7 +109,7 @@ resource "random_password" "keycloak_user_password" {
 
 resource "aws_secretsmanager_secret_version" "keycloak_user_secret_version" {
   secret_id     = aws_secretsmanager_secret.keycloak_user_secret.id
-  secret_string = "{\"username\": \"user\", \"password\": \"${random_password.keycloak_user_password.result}\"}"
+  secret_string = "{\"username\": \"manager\", \"password\": \"${random_password.keycloak_user_password.result}\"}"
 }
 
 
