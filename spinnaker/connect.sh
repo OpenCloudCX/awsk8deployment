@@ -77,14 +77,3 @@ _passwordTable="${_passwordTable}\nCodeServer,${_codeserverPw}"
 echo "Services and Passwords"
 echo "----------------------"
 echo -e $_passwordTable | column -t -s ',' 
-
-# #print load balancer url
-# _lbUrl=$(aws elb describe-load-balancers --profile $_PROFILE --region us-east-1 | jq ".LoadBalancerDescriptions[0].DNSName" | xargs)
-# echo "Ingress IP address --> $_lbUrl"
-# echo''
-
-# #print nslookup for load balancer
-# _lbIp=$(nslookup $_lbUrl)
-# echo "IP address for ingress load balancer"
-# echo''
-# echo "$_lbIp"
