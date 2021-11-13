@@ -1,0 +1,7 @@
+terraform {
+  backend "s3" {
+    key    = "opencloudcx"
+    bucket = "[bucket-name]" 
+    region = "us-east-1"
+  }
+}
