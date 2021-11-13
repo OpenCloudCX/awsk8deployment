@@ -57,15 +57,26 @@ echo''
 echo "Cluster name --> $_k8sName"
 echo''
 
-# print dashbaord token
+# print dashboard token
 _dashboardToken=$(kubectl get secret -n dashboard $(kubectl get sa/k8s-dashboard-admin --namespace dashboard -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")
 echo "Dashboard token --> $_dashboardToken"
 echo''
 
-#print jenkins password
-_jenkinsPw=$(kubectl get secret --namespace jenkins jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode)
-echo "Jenkins PW --> $_jenkinsPw"
-echo''
+_passwordTable=""
+
+#display passwords
+_jenkinsPw=$(kubectl get secret --namespace jenkins jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode) 
+_passwordTable="${_passwordTable}\nJenkins,${_jenkinsPw}"
+
+_grafanaPw=$(kubectl get secret --namespace opencloudcx grafana-admin -o jsonpath="{.data.password}" | base64 --decode)
+_passwordTable="${_passwordTable}\nGrafana,${_grafanaPw}"
+
+_codeserverPw=$(kubectl get secret --namespace develop codeserver-password -o jsonpath="{.data.password}" | base64 --decode)
+_passwordTable="${_passwordTable}\nCodeServer,${_codeserverPw}"
+
+echo "Services and Passwords"
+echo "----------------------"
+echo -e $_passwordTable | column -t -s ',' 
 
 # #print load balancer url
 # _lbUrl=$(aws elb describe-load-balancers --profile $_PROFILE --region us-east-1 | jq ".LoadBalancerDescriptions[0].DNSName" | xargs)
