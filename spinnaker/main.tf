@@ -2,12 +2,6 @@
 
 terraform {
   required_version = "~> 0.14.2"
-
-  backend "s3" {
-    key    = "opencloudcx"
-    bucket = "opencloudcx-state-bucket-####"
-    region = "us-east-1"
-  }
 }
 
 resource "random_string" "random" {
