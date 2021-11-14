@@ -1,7 +1,7 @@
 # Complete example
 
 terraform {
-  required_version = "~> 0.14.2"
+  required_version = "~> 1.0.8"
 }
 
 resource "random_string" "random" {
@@ -13,13 +13,13 @@ resource "random_string" "random" {
 provider "aws" {
   region              = var.aws_region
   allowed_account_ids = [var.aws_account_id]
-  version             = ">= 3.0"
+  # version             = ">= 3.0"
 }
 
 provider "aws" {
   alias               = "prod"
   region              = var.aws_region
   allowed_account_ids = [var.aws_account_id]
-  version             = ">= 3.0"
+  # version             = ">= 3.0"
 }
 
