@@ -124,23 +124,36 @@ Once Terraform instructions have been applied, the following message will be dis
 <span style='font-size: 13pt; color: green'>Apply complete! Resources: ### added, 0 changed, 0 destroyed.</span>
 # Environment Validation
 
-Once a successful message of completion has been achieved, connect to the OpenCloudCX cluster by executing the ```connect.sh``` command with the desired AWS profile.
+Once a successful message of completion has been displayed, run the apprioriate script to connect.
+
+<table>
+<tr><th style="font-size:14pt">Linux</th><th style="font-size:14pt">Windows</th></tr>
+<tr><td>
 
 ```bash
 $ connect.sh --profile <profile name>
 ```
-Windows Users run: aws eks --region us-east-1 update-kubeconfig --name "EKS-CLUSTER-NAME" --profile PROFILE_NAME
 
-kubectl get pods --all-namespaces
+</td><td>
 
-Output:
+```powershell
+connect.ps1 -AwsProfile <profile name>
+```
+
+</td></tr>
+</table>
+
+Output from the above commands:
 |Label|Description|
 |---|---|
 |Cluster name|Name of the Kubernetes cluster for OpenCloudCX. This name will always contain a 4-character randomized string at the end|
 |Dashboard&nbsp;token|Token for use when authenticating to the Kubeternetes dashboard (see below)|
 |Jenkins PW|Jenkins admin password|
+|Grafana PW|Grafana admin password|
+|CodeServer PW|Code Server admin password|
 
-Execute following command to list the PODS in the cluster
+
+Execute following command to list the namespaces in the cluster
 
 ```bash
 $ kubectl get namespaces -A
