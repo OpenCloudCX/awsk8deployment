@@ -57,24 +57,24 @@ resource "aws_secretsmanager_secret_version" "sonarqube_secret_version" {
   secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.sonarqube_password.result}\"}"
 }
 
-##################################
-## Code-Server 
+# ##################################
+# ## Code-Server 
 
-resource "aws_secretsmanager_secret" "code_server_secret" {
-  name                    = "${random_string.random.id}-code_server"
-  recovery_window_in_days = 0
-}
+# resource "aws_secretsmanager_secret" "code_server_secret" {
+#   name                    = "${random_string.random.id}-code_server"
+#   recovery_window_in_days = 0
+# }
 
-resource "random_password" "code_server_password" {
-  length           = 24
-  special          = true
-  override_special = "_%@"
-}
+# resource "random_password" "code_server_password" {
+#   length           = 24
+#   special          = true
+#   override_special = "_%@"
+# }
 
-resource "aws_secretsmanager_secret_version" "code_server_secret_version" {
-  secret_id     = aws_secretsmanager_secret.code_server_secret.id
-  secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.code_server_password.result}\"}"
-}
+# resource "aws_secretsmanager_secret_version" "code_server_secret_version" {
+#   secret_id     = aws_secretsmanager_secret.code_server_secret.id
+#   secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.code_server_password.result}\"}"
+# }
 
 ##################################
 ## Keycloak

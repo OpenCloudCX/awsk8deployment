@@ -26,7 +26,7 @@ module "opencloudcx" {
   sonarqube_secret      = random_password.sonarqube_password.result
   keycloak_admin_secret = random_password.keycloak_admin_password.result
   keycloak_user_secret  = random_password.keycloak_user_password.result
-  code_server_secret    = random_password.code_server_password.result
+  # code_server_secret    = random_password.code_server_password.result
   grafana_secret        = random_password.grafana_password.result
 
   aws_account_id        = var.aws_account_id
@@ -52,4 +52,14 @@ module "spinnaker-managed-role" {
   name             = "riva"
   stack            = "dev"
   trusted_role_arn = [module.opencloudcx.role_arn]
+}
+
+module "codeserver" {
+  source = "../../code-server-module"
+
+  eks_endpoint        = module.opencloudcx.endpoint
+  eks_token           = module.opencloudcx.eks_token
+  eks_cluster_ca_cert = base64decode(module.opencloudcx.eks_ca_auth)
+  installation_prefix = random_string.random.id
+  dns_zone            = var.dns_zone
 }
