@@ -182,13 +182,13 @@ To access the individual toolsets contained within the OpenCloudCX enclave, use 
 
 |Name|URL|Username|Password Location|
 |---|---|---|---|
-|Code Server| ```https://code-server.[DNS ZONE]```|None|AWS Secrets Manager|
+|Code Server| ```https://code-server.[DNS ZONE]```|None|AWS Secrets Manager [```code_server```] or ```connect.sh``` token output|
 |Dashboard| ```https://dashboard.[DNS ZONE]```|None|```connect.sh``` token output|
-|Grafana| ```https://grafana.[DNS ZONE]```|admin|AWS Secrets Manager|
-|Jenkins| ```https://jenkins.[DNS ZONE]```|admin|AWS Secrets Manager or ```connect.sh``` token output|
-|Keycloak| ```https://keycloak.[DNS ZONE]```|user|AWS Secrets Manager [```keycloak-admin```]|
+|Grafana| ```https://grafana.[DNS ZONE]```|admin|AWS Secrets Manager [```grafana```] or ```connect.sh``` token output|
+|Jenkins| ```https://jenkins.[DNS ZONE]```|admin|AWS Secrets Manager [```jenkins```] or ```connect.sh``` token output|
+|Keycloak| ```https://keycloak.[DNS ZONE]```|user|AWS Secrets Manager [```keycloak-admin```]
 |Selenium| ```https://selenium.[DNS ZONE]```|None|None|
-|SonarQube| ```https://sonarqube.[DNS ZONE]```|admin|AWS Secrets Manager|
+|SonarQube| ```https://sonarqube.[DNS ZONE]```|admin|AWS Secrets Manager [```sonarqube```]|
 |Spinnaker| ```https://spinnaker.[DNS ZONE]```|None|None|
 
 # Code-Server configuration
